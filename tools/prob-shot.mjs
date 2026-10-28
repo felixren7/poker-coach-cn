@@ -1,0 +1,14 @@
+import fs from 'node:fs';
+const CDP='http://127.0.0.1:9223';const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const pages=await (await fetch(`${CDP}/json/list`)).json();const page=pages.find(p=>p.type==='page');
+const ws=new WebSocket(page.webSocketDebuggerUrl);await new Promise((r,j)=>{ws.onopen=r;ws.onerror=j});
+let id=0;const pend=new Map();ws.onmessage=e=>{const m=JSON.parse(e.data);if(m.id){const p=pend.get(m.id);if(p){pend.delete(m.id);m.error?p.j(new Error(m.error.message)):p.r(m.result)}}};const send=(method,params={})=>new Promise((r,j)=>{const i=++id;pend.set(i,{r,j});ws.send(JSON.stringify({id:i,method,params}))});const ev=async x=>(await send('Runtime.evaluate',{expression:x,returnByValue:true})).result?.value;
+await send('Page.enable');await send('Runtime.enable');
+await ev(`location.hash='#/lesson/L7'`);await sleep(900);
+await ev(`document.querySelector('.prob-tools')?.scrollIntoView({block:'start'})`);await sleep(400);
+const s=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('/tmp/poker-shots/prob-tool.png',Buffer.from(s.data,'base64'));
+await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:2,mobile:true});await sleep(400);
+await ev(`document.querySelector('.prob-tools')?.scrollIntoView({block:'start'})`);await sleep(400);
+const s2=await send('Page.captureScreenshot',{format:'png'});fs.writeFileSync('/tmp/poker-shots/mobile-prob-tool.png',Buffer.from(s2.data,'base64'));
+console.log('ok');
+ws.close();
