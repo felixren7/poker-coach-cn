@@ -1,10 +1,22 @@
 # 河牌之前 · 德州扑克教练
 
+> Created by [Felix Ren](https://github.com/felixren7)
+
 面向中文新手的无限注德州扑克交互式学习与训练系统。它不是一个“胜率预测器”，也不承诺学完必胜；它把学习闭环做成可运行的产品：
 
 **理解知识 → 查看示范 → 独立决策 → 获得解释 → 针对错误训练 → 在新场景中验证掌握程度**
 
 项目目录原本为空（没有现有代码、README 或 AGENTS.md），因此本版本从零搭建。技术栈优先使用本机已有的 Node.js，采用 **原生 ES Modules + 零运行时依赖 + Node 内置测试**，不需要联网安装依赖，也不需要前端构建步骤。
+
+---
+
+## 在线访问
+
+**https://felixren7.github.io/poker-coach-cn/**
+
+由 GitHub Pages 从 `main` 分支根目录自动发布。任何拿到链接的人都可以直接打开；学习进度保存在**每位访问者自己的浏览器 localStorage** 中，不会上传或共享。
+
+> 如果刚推送后打开出现 404，GitHub Pages 通常需要 1–3 分钟完成首次构建；稍后刷新即可。
 
 ---
 
@@ -30,6 +42,17 @@ npm test
 当前测试覆盖规则引擎、牌型、概率公式、范围权益模拟、内容合法性、评分、进度持久化、重放和电脑对手信息边界。无需 `npm install`。
 
 > 只使用本地静态服务器；学习记录保存在浏览器 `localStorage`，没有后端上传。
+
+### GitHub Pages 部署
+
+本仓库已启用 GitHub Pages：
+
+- 分支：`main`
+- 目录：`/`（仓库根目录）
+- 入口：`index.html`
+- `.nojekyll` 用于避免 Jekyll 处理静态资源
+
+推送 `main` 后自动更新。若要在其他账号/仓库重新部署，进入 **Settings → Pages**，选择 **Deploy from a branch**、`main`、`/(root)` 即可。页面使用 hash 路由，不需要额外的服务端 fallback；但本地开发仍建议用 `npm start`，不要直接双击 `index.html`（ES Modules 需要 HTTP）。
 
 ---
 
