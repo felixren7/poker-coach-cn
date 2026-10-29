@@ -49,6 +49,32 @@ let shell = null;
 let viewHost = null;
 let navHost = null;
 
+function creatorBadge() {
+  return h(
+    'a',
+    {
+      className: 'creator-badge',
+      href: 'https://github.com/felixren7',
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      title: 'Created by Felix Ren · GitHub',
+      'aria-label': 'Created by Felix Ren，打开 GitHub 主页'
+    },
+    h(
+      'span',
+      { className: 'creator-mark', 'aria-hidden': 'true' },
+      h('span', {}, 'FR')
+    ),
+    h(
+      'span',
+      { className: 'creator-copy' },
+      h('em', {}, 'CREATED BY'),
+      h('strong', {}, 'FELIX REN')
+    ),
+    h('span', { className: 'creator-spark', 'aria-hidden': 'true' })
+  );
+}
+
 function renderShell() {
   const app = document.getElementById('app');
   clear(app);
@@ -88,6 +114,7 @@ function renderShell() {
       h(
         'div',
         { className: 'topbar-side' },
+        creatorBadge(),
         h(
           'a',
           { className: 'mini-status', href: '#/train?mode=daily', title: '今日到期复习' },
