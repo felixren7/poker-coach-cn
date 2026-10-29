@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Orbitron";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../assets/fonts/orbitron-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Orbitron";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../assets/fonts/orbitron-latin-800-normal.woff2") format("woff2");
+}
+
 /* ============================================================
    河牌之前 · 视觉系统
    深绿牌桌、暖金强调、米白牌面；高对比、可缩放、支持手机。
@@ -4939,9 +4955,10 @@ select,
   width: 27px;
   height: 27px;
   color: var(--cyan);
+  font-family: "Orbitron", var(--font-tech);
   font-size: 9px;
   font-weight: 800;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   clip-path: polygon(25% 0, 100% 0, 100% 75%, 75% 100%, 0 100%, 0 25%);
   background:
     linear-gradient(135deg, rgba(127, 231, 255, 0.2), rgba(228, 191, 125, 0.08)),
@@ -4973,9 +4990,10 @@ select,
 }
 
 .creator-copy strong {
-  font-size: 11px;
+  font-family: "Orbitron", var(--font-tech);
+  font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   color: transparent;
   background: linear-gradient(
     90deg,
@@ -5057,8 +5075,8 @@ select,
   }
 
   .creator-copy strong {
-    font-size: 10px;
-    letter-spacing: 0.1em;
+    font-size: 9px;
+    letter-spacing: 0.08em;
   }
 
   .creator-spark {

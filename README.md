@@ -311,3 +311,5 @@ npm test
 ## 许可
 
 本项目为本地学习/教学原型，未接入真钱、账户或第三方服务。虚拟筹码仅用于练习。策略内容不构成盈利建议。
+
+顶部 Created by Felix Ren 标识使用自托管的 [Orbitron](https://fonts.google.com/specimen/Orbitron) 字体，遵循 SIL Open Font License 1.1；许可证文本见 `assets/fonts/OFL.txt`。
