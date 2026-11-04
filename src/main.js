@@ -48,6 +48,7 @@ let currentCleanup = null;
 let shell = null;
 let viewHost = null;
 let navHost = null;
+let initialRender = true;
 
 function creatorBadge() {
   return h(
@@ -80,6 +81,12 @@ function renderShell() {
   clear(app);
   const due = getDueCount();
   const overall = getOverallMastery();
+  const hasStarted = overall.attempts > 0;
+  const status = due
+    ? { href: '#/train?mode=daily', title: '今日到期复习', label: `待复习 ${due}` }
+    : hasStarted
+      ? { href: '#/progress', title: '查看学习进度', label: `进度 ${Math.round(overall.mastery * 100)}%` }
+      : { href: '#/learn', title: '从第一课开始', label: '开始学习' };
   const navLinks = () =>
     NAV.map((item) =>
       h(
@@ -117,9 +124,13 @@ function renderShell() {
         creatorBadge(),
         h(
           'a',
-          { className: 'mini-status', href: '#/train?mode=daily', title: '今日到期复习' },
-          h('span', { className: 'mini-dot' }),
-          due ? `待复习 ${due}` : `进度 ${Math.round(overall.mastery * 100)}%`
+          {
+            className: 'mini-status',
+            href: status.href,
+            title: status.title
+          },
+          h('span', { className: `mini-dot${hasStarted || due ? '' : ' is-idle'}` }),
+          status.label
         )
       )
     )
@@ -191,7 +202,11 @@ function renderRoute() {
   updateNav(routeName);
   document.title = `${route.title} · 河牌之前`;
   window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
-  viewHost.focus({ preventScroll: true });
+  if (initialRender) {
+    initialRender = false;
+  } else {
+    viewHost.focus({ preventScroll: true });
+  }
 }
 
 function notFound() {

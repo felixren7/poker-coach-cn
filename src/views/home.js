@@ -32,13 +32,20 @@ export function renderHome() {
   const streak = getStreak();
   const data = getData();
   const attempts = data.attempts.length;
+  const hasStarted =
+    attempts > 0 ||
+    completed > 0 ||
+    Object.values(data.questions).some((question) => (question.attempts || 0) > 0);
+  const isFirstRun = !hasStarted;
+  const isProvisional = !isFirstRun && (overall.lowSample || overall.tags === 0);
   const recentMistakes = getMistakeList().slice(0, 3);
+  const practiceCount = nextLesson?.practiceQuestionIds?.length || 0;
 
   const mainCta = nextLesson
     ? h(
         'a',
         { className: 'btn btn-primary btn-lg', href: `#/lesson/${nextLesson.id}` },
-        `继续学习 · ${nextLesson.title}`
+        `${isFirstRun ? '开始第一课' : '继续学习'} · ${nextLesson.title}`
       )
     : h('a', { className: 'btn btn-primary btn-lg', href: '#/train?mode=free' }, '进入自由训练');
 
@@ -52,7 +59,13 @@ export function renderHome() {
         'div',
         { className: 'hero-copy' },
         h('p', { className: 'eyebrow' }, '河牌之前 · 中文德州扑克教练'),
-        h('h1', {}, '用决策质量，而不是一手牌的输赢来衡量进步。'),
+        h(
+          'h1',
+          {},
+          '用决策质量，而不是',
+          h('span', { className: 'nowrap' }, '一手牌的输赢'),
+          '来衡量进步。'
+        ),
         h(
           'p',
           { className: 'hero-lead' },
@@ -62,8 +75,21 @@ export function renderHome() {
           'div',
           { className: 'hero-actions' },
           mainCta,
-          h('a', { className: 'btn btn-secondary btn-lg', href: '#/train?mode=daily' }, due ? `今日复习 ${due} 题` : '开始今日训练')
+          isFirstRun
+            ? null
+            : h(
+                'a',
+                { className: 'btn btn-secondary btn-lg', href: '#/train?mode=daily' },
+                due ? `今日复习 ${due} 题` : '开始今日训练'
+              )
         ),
+        isFirstRun && practiceCount
+          ? h(
+              'p',
+              { className: 'hero-first-run-note' },
+              `第一课包含示范与 ${practiceCount} 道练习；每题都有解释，不需要注册。`
+            )
+          : null,
         h(
           'div',
           { className: 'hero-disclaimer' },
@@ -76,14 +102,32 @@ export function renderHome() {
         h(
           'div',
           { className: 'hero-ring' },
-          h('span', { className: 'ring-value' }, `${Math.round(overall.mastery * 100)}%`),
-          h('span', { className: 'ring-label' }, '综合能力信号'),
-          h('span', { className: 'ring-note' }, overall.lowSample || overall.tags === 0 ? '样本不足，仅供参考' : masteryLabel(overall.mastery))
+          h(
+            'span',
+            { className: `ring-value${isFirstRun || isProvisional ? ' is-qualitative' : ''}` },
+            isFirstRun ? '起步' : isProvisional ? '积累中' : `${Math.round(overall.mastery * 100)}%`
+          ),
+          h('span', { className: 'ring-label' }, isFirstRun ? '从第一课开始' : '综合能力信号'),
+          h(
+            'span',
+            { className: 'ring-note' },
+            isFirstRun
+              ? '完成后再看能力信号'
+              : isProvisional
+                ? '样本不足，仅供参考'
+                : masteryLabel(overall.mastery)
+          )
         ),
         h(
           'div',
           { className: 'hero-side-note' },
-          h('p', {}, '能力信号综合首次作答、提示依赖、重复错误与延迟复测；不是胜率。'),
+          h(
+            'p',
+            {},
+            isFirstRun
+              ? '完成第一课后，这里会显示基于首次作答、提示依赖与复测的能力信号。'
+              : '能力信号综合首次作答、提示依赖、重复错误与延迟复测；不是胜率。'
+          ),
           h('a', { href: '#/progress' }, '查看计算方式 →')
         )
       )
@@ -144,7 +188,10 @@ export function renderHome() {
           const done = dataLessons.length;
           return h(
             'a',
-            { className: `phase-card phase-${phase.id}`, href: '#/learn' },
+            {
+              className: `phase-card phase-${phase.id}`,
+              href: `#/learn?phase=${phase.id}`
+            },
             h('span', { className: 'phase-number' }, `阶段 ${phase.id}`),
             h('h3', {}, phase.title),
             h('p', {}, phase.subtitle),

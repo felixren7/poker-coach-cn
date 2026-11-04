@@ -253,6 +253,7 @@ small {
   display: flex;
   align-items: center;
   gap: 2px;
+  padding: 6px;
   overflow-x: auto;
   scrollbar-width: none;
   flex: 1;
@@ -308,6 +309,11 @@ small {
   border-radius: 50%;
   background: var(--green-bright);
   box-shadow: 0 0 0 4px rgba(86, 193, 142, 0.12);
+}
+
+.mini-dot.is-idle {
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(228, 191, 125, 0.12);
 }
 
 /* ------------------------------------------------------------ 通用组件 */
@@ -1972,6 +1978,10 @@ small {
   letter-spacing: -0.01em;
 }
 
+.hero-copy h1 .nowrap {
+  white-space: nowrap;
+}
+
 .hero-lead {
   max-width: 650px;
   color: var(--text-soft);
@@ -1985,10 +1995,18 @@ small {
   margin: 24px 0 16px;
 }
 
+.hero-first-run-note {
+  max-width: 560px;
+  margin: -4px 0 14px;
+  color: var(--text-soft);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 .hero-disclaimer {
   max-width: 620px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.6;
 }
 
@@ -2022,6 +2040,11 @@ small {
   line-height: 1;
 }
 
+.ring-value.is-qualitative {
+  font-size: 34px;
+  letter-spacing: 0.06em;
+}
+
 .ring-label {
   display: block;
   margin-top: 6px;
@@ -2033,7 +2056,7 @@ small {
   display: block;
   margin-top: 4px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .hero-side-note {
@@ -2043,11 +2066,11 @@ small {
 
 .hero-side-note p {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .hero-side-note a {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .stat-strip {
@@ -2067,9 +2090,8 @@ small {
 .stat-label {
   display: block;
   color: var(--muted);
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.08em;
 }
 
 .stat-value {
@@ -2082,7 +2104,7 @@ small {
 
 .stat-detail {
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .section-block {
@@ -2302,6 +2324,7 @@ small {
   border-radius: 22px;
   background:
     linear-gradient(180deg, rgba(19, 54, 42, 0.45), rgba(8, 27, 20, 0.45));
+  scroll-margin-top: 88px;
 }
 
 .phase-head {
@@ -4236,6 +4259,10 @@ select,
     display: none;
   }
 
+  .brand {
+    min-height: 44px;
+  }
+
   .brand-mark {
     width: 30px;
     height: 36px;
@@ -4249,10 +4276,11 @@ select,
   .main-nav {
     order: 3;
     flex-basis: 100%;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2px;
     overflow: visible;
-    padding-bottom: 7px;
-    row-gap: 2px;
+    padding: 2px 0 7px;
   }
 
   .topbar-inner {
@@ -4261,8 +4289,13 @@ select,
   }
 
   .nav-link {
-    padding: 6px 10px;
-    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 6px 4px;
+    font-size: 13px;
+    text-align: center;
   }
 
   .mini-status {
@@ -4297,6 +4330,10 @@ select,
 
   .phase-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .phase-section {
+    scroll-margin-top: 178px;
   }
 
   .about-grid,
@@ -5058,6 +5095,7 @@ select,
   }
 
   .creator-badge {
+    min-height: 44px;
     gap: 6px;
     padding: 4px 8px 4px 5px;
     border-radius: 8px;
@@ -5070,12 +5108,12 @@ select,
   }
 
   .creator-copy em {
-    font-size: 6px;
-    letter-spacing: 0.18em;
+    font-size: 7px;
+    letter-spacing: 0.16em;
   }
 
   .creator-copy strong {
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.08em;
   }
 

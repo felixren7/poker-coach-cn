@@ -18,9 +18,9 @@ function lockReason(lesson) {
   return names.length ? `完成 ${names.join('、')} 后解锁` : '完成前一阶段后解锁';
 }
 
-export function renderLearn() {
+export function renderLearn(params = {}) {
   const next = getNextLesson();
-  return h(
+  const view = h(
     'div',
     { className: 'view learn-view' },
     h(
@@ -58,7 +58,7 @@ export function renderLearn() {
         const phaseStatus = getPhaseStatus(phase);
         return h(
           'section',
-          { className: `phase-section phase-${phase.id}` },
+          { className: `phase-section phase-${phase.id}`, id: `phase-${phase.id}` },
           h(
             'div',
             { className: 'phase-head' },
@@ -136,4 +136,15 @@ export function renderLearn() {
       )
     )
   );
+  const phaseId = Number(params.phase);
+  if (Number.isInteger(phaseId) && phaseId >= 1 && phaseId <= 5) {
+    requestAnimationFrame(() => {
+      const target = view.querySelector(`#phase-${phaseId}`);
+      if (!target) return;
+      target.scrollIntoView({ block: 'start', behavior: 'auto' });
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    });
+  }
+  return view;
 }
